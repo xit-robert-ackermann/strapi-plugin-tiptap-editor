@@ -59,6 +59,24 @@ export function ColorPickerPopover({
           </Tooltip>
         ))}
       </div>
+      <div style={{ marginTop: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
+        <input
+          type="color"
+          value={activeColor?.startsWith('#') ? activeColor : '#000000'}
+          onChange={(e) => onSelect(e.target.value)}
+          style={{ width: 24, height: 24, padding: 0, border: 'none', cursor: 'pointer' }}
+          aria-label={formatMessage({
+            id: 'tiptap-editor.color.custom',
+            defaultMessage: 'Custom color',
+          })}
+        />
+        <span style={{ fontSize: 12 }}>
+          {formatMessage({
+            id: 'tiptap-editor.color.custom',
+            defaultMessage: 'Custom color',
+          })}
+        </span>
+      </div>
     </div>
   );
 }
