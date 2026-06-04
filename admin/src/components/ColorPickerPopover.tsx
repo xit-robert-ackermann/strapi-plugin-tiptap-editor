@@ -17,6 +17,11 @@ export function ColorPickerPopover({
 }: ColorPickerPopoverProps) {
   const { formatMessage } = useIntl();
 
+  const customLabel = formatMessage({
+    id: 'tiptap-editor.color.custom',
+    defaultMessage: 'Custom color',
+  });
+
   return (
     <div style={{ padding: 8, maxHeight: 400, overflowY: 'auto' }}>
       <Button
@@ -35,6 +40,7 @@ export function ColorPickerPopover({
           display: 'grid',
           gridTemplateColumns: 'repeat(11, 24px)',
           gap: 4,
+          marginTop: 8,
         }}
       >
         {colors.map((entry) => (
@@ -58,24 +64,36 @@ export function ColorPickerPopover({
             />
           </Tooltip>
         ))}
-      </div>
-      <div style={{ marginTop: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
-        <input
-          type="color"
-          value={activeColor?.startsWith('#') ? activeColor : '#000000'}
-          onChange={(e) => onSelect(e.target.value)}
-          style={{ width: 24, height: 24, padding: 0, border: 'none', cursor: 'pointer' }}
-          aria-label={formatMessage({
-            id: 'tiptap-editor.color.custom',
-            defaultMessage: 'Custom color',
-          })}
-        />
-        <span style={{ fontSize: 12 }}>
-          {formatMessage({
-            id: 'tiptap-editor.color.custom',
-            defaultMessage: 'Custom color',
-          })}
-        </span>
+        <Tooltip description={customLabel}>
+          <div
+            style={{
+              position: 'relative',
+              width: 24,
+              height: 24,
+              borderRadius: 4,
+              cursor: 'pointer',
+              background: 'conic-gradient(red, yellow, lime, aqua, blue, magenta, red)',
+              flexShrink: 0,
+            }}
+          >
+            <input
+              type="color"
+              value={activeColor?.startsWith('#') ? activeColor : '#000000'}
+              aria-label={customLabel}
+              onChange={(e) => onSelect(e.target.value)}
+              style={{
+                position: 'absolute',
+                inset: 0,
+                opacity: 0,
+                width: '100%',
+                height: '100%',
+                cursor: 'pointer',
+                padding: 0,
+                border: 'none',
+              }}
+            />
+          </div>
+        </Tooltip>
       </div>
     </div>
   );
