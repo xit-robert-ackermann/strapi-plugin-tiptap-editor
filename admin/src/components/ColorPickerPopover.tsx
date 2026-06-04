@@ -2,6 +2,7 @@ import { Box, Button, Divider, Flex, Tooltip, Typography } from '@strapi/design-
 import { useIntl } from 'react-intl';
 import { ThemeColorEntry } from '../../../shared/types';
 import { useEffect, useState } from 'react';
+import { useTheme } from 'styled-components';
 
 interface ColorPickerPopoverProps {
   colors: ThemeColorEntry[];
@@ -17,11 +18,14 @@ export function ColorPickerPopover({
   onRemove,
 }: ColorPickerPopoverProps) {
   const { formatMessage } = useIntl();
+  const theme = useTheme();
 
   const [pendingColor, setPendingColor] = useState<string>(activeColor ?? '#000000');
+  const [isDirty, setIsDirty] = useState(false);
 
   useEffect(() => {
     setPendingColor(activeColor ?? '#000000');
+    setIsDirty(false);
   }, [activeColor]);
 
   const customLabel = formatMessage({
@@ -29,7 +33,7 @@ export function ColorPickerPopover({
     defaultMessage: 'Custom color',
   });
 
-  const hasPendingChange = pendingColor !== activeColor;
+  const hasPendingChange = isDirty && pendingColor !== activeColor;
 
   return (
     <Box padding={3} style={{ width: 280 }}>
@@ -60,7 +64,7 @@ export function ColorPickerPopover({
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(8, 1fr)',
+            gridTemplateColumns: 'repeat(8, 24px)',
             gap: 6,
           }}
         >
@@ -79,7 +83,7 @@ export function ColorPickerPopover({
                   cursor: 'pointer',
                   padding: 0,
                   ...(activeColor === entry.color
-                    ? { outline: '2px solid #4945ff', outlineOffset: '2px' }
+                    ? { outline: `2px solid ${theme.colors.primary600}`, outlineOffset: '2px' }
                     : {}),
                 }}
               />
@@ -114,7 +118,7 @@ export function ColorPickerPopover({
                 type="color"
                 value={pendingColor}
                 aria-label={customLabel}
-                onChange={(e) => setPendingColor(e.target.value)}
+                onChange={(e) => { setPendingColor(e.target.value); setIsDirty(true); }}
                 style={{
                   position: 'absolute',
                   inset: 0,
@@ -143,7 +147,7 @@ export function ColorPickerPopover({
                   width: 16,
                   height: 16,
                   backgroundColor: pendingColor,
-                  border: '1px solid #dcdce4',
+                  border: `1px solid ${theme.colors.neutral200}`,
                   borderRadius: 3,
                   flexShrink: 0,
                 }}
