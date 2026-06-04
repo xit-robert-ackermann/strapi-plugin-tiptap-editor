@@ -29,21 +29,6 @@ export function ColorPickerPopover({
     defaultMessage: 'Custom color',
   });
 
-  const themeLabel = formatMessage({
-    id: 'tiptap-editor.color.theme',
-    defaultMessage: 'Theme colors',
-  });
-
-  const applyLabel = formatMessage({
-    id: 'tiptap-editor.color.apply',
-    defaultMessage: 'Apply',
-  });
-
-  const removeLabel = formatMessage({
-    id: 'tiptap-editor.color.remove',
-    defaultMessage: 'Remove color',
-  });
-
   const hasPendingChange = pendingColor !== activeColor;
 
   return (
@@ -55,7 +40,10 @@ export function ColorPickerPopover({
         disabled={!activeColor}
         fullWidth
       >
-        {removeLabel}
+        {formatMessage({
+          id: 'tiptap-editor.color.remove',
+          defaultMessage: 'Remove color',
+        })}
       </Button>
 
       <Box paddingTop={3} paddingBottom={3}>
@@ -63,7 +51,10 @@ export function ColorPickerPopover({
       </Box>
 
       <Typography variant="sigma" textColor="neutral600">
-        {themeLabel}
+        {formatMessage({
+          id: 'tiptap-editor.color.theme',
+          defaultMessage: 'Theme colors',
+        })}
       </Typography>
       <Box paddingTop={2}>
         <div
@@ -168,7 +159,10 @@ export function ColorPickerPopover({
             onClick={() => onSelect(pendingColor)}
             disabled={!hasPendingChange}
           >
-            {applyLabel}
+            {formatMessage({
+              id: 'tiptap-editor.color.apply',
+              defaultMessage: 'Apply',
+            })}
           </Button>
         </Flex>
       </Box>
