@@ -1,6 +1,7 @@
-import { Tooltip, Button } from '@strapi/design-system';
+import { Box, Button, Divider, Flex, Tooltip, Typography } from '@strapi/design-system';
 import { useIntl } from 'react-intl';
 import { ThemeColorEntry } from '../../../shared/types';
+import { useEffect, useState } from 'react';
 
 interface ColorPickerPopoverProps {
   colors: ThemeColorEntry[];
@@ -17,84 +18,160 @@ export function ColorPickerPopover({
 }: ColorPickerPopoverProps) {
   const { formatMessage } = useIntl();
 
+  const [pendingColor, setPendingColor] = useState<string>(activeColor ?? '#000000');
+
+  useEffect(() => {
+    setPendingColor(activeColor ?? '#000000');
+  }, [activeColor]);
+
   const customLabel = formatMessage({
     id: 'tiptap-editor.color.custom',
     defaultMessage: 'Custom color',
   });
 
+  const themeLabel = formatMessage({
+    id: 'tiptap-editor.color.theme',
+    defaultMessage: 'Theme colors',
+  });
+
+  const applyLabel = formatMessage({
+    id: 'tiptap-editor.color.apply',
+    defaultMessage: 'Apply',
+  });
+
+  const removeLabel = formatMessage({
+    id: 'tiptap-editor.color.remove',
+    defaultMessage: 'Remove color',
+  });
+
+  const hasPendingChange = pendingColor !== activeColor;
+
   return (
-    <div style={{ padding: 8, maxHeight: 400, overflowY: 'auto' }}>
+    <Box padding={3} style={{ width: 280 }}>
       <Button
         variant="tertiary"
         size="S"
         onClick={onRemove}
-        style={{ marginTop: 8, width: '100%' }}
+        disabled={!activeColor}
+        fullWidth
       >
-        {formatMessage({
-          id: 'tiptap-editor.color.remove',
-          defaultMessage: 'Remove color',
-        })}
+        {removeLabel}
       </Button>
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(11, 24px)',
-          gap: 4,
-          marginTop: 8,
-        }}
-      >
-        {colors.map((entry) => (
-          <Tooltip key={entry.color} description={entry.label}>
-            <button
-              type="button"
-              aria-label={entry.label}
-              onClick={() => onSelect(entry.color)}
+
+      <Box paddingTop={3} paddingBottom={3}>
+        <Divider />
+      </Box>
+
+      <Typography variant="sigma" textColor="neutral600">
+        {themeLabel}
+      </Typography>
+      <Box paddingTop={2}>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(8, 1fr)',
+            gap: 6,
+          }}
+        >
+          {colors.map((entry) => (
+            <Tooltip key={entry.color} description={entry.label}>
+              <button
+                type="button"
+                aria-label={entry.label}
+                onClick={() => onSelect(entry.color)}
+                style={{
+                  width: 24,
+                  height: 24,
+                  backgroundColor: entry.color,
+                  border: 'none',
+                  borderRadius: 4,
+                  cursor: 'pointer',
+                  padding: 0,
+                  ...(activeColor === entry.color
+                    ? { outline: '2px solid #4945ff', outlineOffset: '2px' }
+                    : {}),
+                }}
+              />
+            </Tooltip>
+          ))}
+        </div>
+      </Box>
+
+      <Box paddingTop={3} paddingBottom={3}>
+        <Divider />
+      </Box>
+
+      <Typography variant="sigma" textColor="neutral600">
+        {customLabel}
+      </Typography>
+      <Box paddingTop={2}>
+        <Flex gap={2} alignItems="center">
+          <Tooltip description={customLabel}>
+            <div
               style={{
-                width: 24,
-                height: 24,
-                backgroundColor: entry.color,
-                border: 'none',
+                position: 'relative',
+                width: 28,
+                height: 28,
                 borderRadius: 4,
                 cursor: 'pointer',
-                padding: 0,
-                ...(activeColor === entry.color
-                  ? { outline: '2px solid #4945ff', outlineOffset: '2px' }
-                  : {}),
+                background:
+                  'conic-gradient(red, yellow, lime, aqua, blue, magenta, red)',
+                flexShrink: 0,
               }}
-            />
+            >
+              <input
+                type="color"
+                value={pendingColor}
+                aria-label={customLabel}
+                onChange={(e) => setPendingColor(e.target.value)}
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  opacity: 0,
+                  width: '100%',
+                  height: '100%',
+                  cursor: 'pointer',
+                  padding: 0,
+                  border: 'none',
+                }}
+              />
+            </div>
           </Tooltip>
-        ))}
-        <Tooltip description={customLabel}>
-          <div
-            style={{
-              position: 'relative',
-              width: 24,
-              height: 24,
-              borderRadius: 4,
-              cursor: 'pointer',
-              background: 'conic-gradient(red, yellow, lime, aqua, blue, magenta, red)',
-              flexShrink: 0,
-            }}
+          <Box
+            background="neutral100"
+            paddingLeft={2}
+            paddingRight={2}
+            paddingTop={1}
+            paddingBottom={1}
+            hasRadius
+            style={{ flexGrow: 1 }}
           >
-            <input
-              type="color"
-              value={activeColor?.startsWith('#') ? activeColor : '#000000'}
-              aria-label={customLabel}
-              onChange={(e) => onSelect(e.target.value)}
-              style={{
-                position: 'absolute',
-                inset: 0,
-                opacity: 0,
-                width: '100%',
-                height: '100%',
-                cursor: 'pointer',
-                padding: 0,
-                border: 'none',
-              }}
-            />
-          </div>
-        </Tooltip>
-      </div>
-    </div>
+            <Flex gap={2} alignItems="center">
+              <div
+                style={{
+                  width: 16,
+                  height: 16,
+                  backgroundColor: pendingColor,
+                  border: '1px solid #dcdce4',
+                  borderRadius: 3,
+                  flexShrink: 0,
+                }}
+              />
+              <Typography variant="pi" style={{ fontFamily: 'monospace' }}>
+                {pendingColor.toUpperCase()}
+              </Typography>
+            </Flex>
+          </Box>
+          <Button
+            variant="secondary"
+            size="S"
+            onClick={() => onSelect(pendingColor)}
+            disabled={!hasPendingChange}
+          >
+            {applyLabel}
+          </Button>
+        </Flex>
+      </Box>
+    </Box>
   );
 }
