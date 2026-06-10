@@ -5,6 +5,7 @@ import { Popover } from '@strapi/design-system';
 import { ToolbarButton } from '../components/ToolbarButton';
 import { ColorPickerPopover } from '../components/ColorPickerPopover';
 import { useThemeConfig } from '../hooks/useThemeConfig';
+import { TiptapPresetConfig, getFeatureOptions, isFeatureEnabled } from '../../../shared/types';
 
 // ─── Icon ─────────────────────────────────────────────────────────────────────
 
@@ -22,7 +23,10 @@ function HighlightColorIcon({ underColor }: { underColor: string }) {
 
 // ─── Hook ─────────────────────────────────────────────────────────────────────
 
-export function useHighlightColor(editor: Editor | null, props: { disabled?: boolean; colorPicker?: boolean } = {}) {
+export function useHighlightColor(editor: Editor | null, props: { disabled?: boolean; config?: TiptapPresetConfig['highlightColor'] } = {}) {
+  const colorPickerEnabled = isFeatureEnabled(
+    getFeatureOptions(props.config, {})?.colorPicker as TiptapPresetConfig[keyof TiptapPresetConfig]
+  );
   const themeConfig = useThemeConfig();
   const colors = themeConfig?.colors ?? [];
 
@@ -105,7 +109,7 @@ export function useHighlightColor(editor: Editor | null, props: { disabled?: boo
             activeColor={activeColor}
             onSelect={handleSelect}
             onRemove={handleRemove}
-            showColorPicker={props.colorPicker}
+            showColorPicker={colorPickerEnabled}
           />
         </Popover.Content>
       </Popover.Root>

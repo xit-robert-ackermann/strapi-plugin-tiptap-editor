@@ -17,7 +17,7 @@ import { useTextColor } from '../extensions/TextColor';
 import { useHighlightColor } from '../extensions/HighlightColor';
 import { usePresetConfig } from '../hooks/usePresetConfig';
 import { buildExtensions } from '../utils/buildExtensions';
-import { TiptapPresetConfig, MINIMAL_PRESET_CONFIG, getFeatureOptions, isFeatureEnabled } from '../../../shared/types';
+import { TiptapPresetConfig, MINIMAL_PRESET_CONFIG, getFeatureOptions } from '../../../shared/types';
 
 // ─── Inner editor ────────────────────────────────────────────────────────────
 // Mounted only AFTER preset config is resolved, so useEditor receives the
@@ -45,16 +45,8 @@ const InnerEditor = forwardRef<HTMLDivElement, InnerEditorProps>(
     const script = useScript(editor, { disabled: props.disabled });
     const table = useTable(editor, { disabled: props.disabled });
     const textAlign = useTextAlign(editor, { disabled: props.disabled });
-    const textColorOptions = getFeatureOptions(config.textColor, {});
-    const textColor = useTextColor(editor, {
-      disabled: props.disabled,
-      colorPicker: isFeatureEnabled(textColorOptions?.colorPicker as boolean | Record<string, unknown>),
-    });
-    const highlightColorOptions = getFeatureOptions(config.highlightColor, {});
-    const highlightColor = useHighlightColor(editor, {
-      disabled: props.disabled,
-      colorPicker: isFeatureEnabled(highlightColorOptions?.colorPicker as boolean | Record<string, unknown>),
-    });
+    const textColor = useTextColor(editor, { disabled: props.disabled, config: config.textColor });
+    const highlightColor = useHighlightColor(editor, { disabled: props.disabled, config: config.highlightColor });
 
     if (!editor) return null;
 
