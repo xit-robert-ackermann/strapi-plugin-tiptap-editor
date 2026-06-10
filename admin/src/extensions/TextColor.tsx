@@ -40,6 +40,7 @@ export function useTextColor(editor: Editor | null, props: { disabled?: boolean;
   });
 
   const selectionRef = useRef<{ from: number; to: number } | null>(null);
+  const colorDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [showPicker, setShowPicker] = useState(false);
 
   const openPicker = () => {
@@ -62,6 +63,16 @@ export function useTextColor(editor: Editor | null, props: { disabled?: boolean;
     setShowPicker(false);
   };
 
+  // Used by the color input — applies color without focus() so the OS dialog
+  // doesn't trigger a focusOutside event that closes the popover.
+  const handleColorInputChange = (color: string) => {
+    if (!editor) return;
+    if (colorDebounceRef.current) clearTimeout(colorDebounceRef.current);
+    colorDebounceRef.current = setTimeout(() => {
+      editor.chain().setTextSelection(selectionRef.current ?? editor.state.selection).setColor(color).run();
+    }, 80);
+  };
+
   const handleRemove = () => {
     if (!editor) return;
     restoreSelection();
@@ -75,11 +86,8 @@ export function useTextColor(editor: Editor | null, props: { disabled?: boolean;
   };
 
   const handleOpenChange = (open: boolean) => {
-    if (open) {
-      openPicker();
-    } else {
-      handleInteractOutside();
-    }
+    if (open) openPicker();
+    else handleInteractOutside();
   };
 
   const activeColor = editorState?.activeColor;
@@ -102,6 +110,7 @@ export function useTextColor(editor: Editor | null, props: { disabled?: boolean;
           align="start"
           sideOffset={4}
           onInteractOutside={handleInteractOutside}
+          onEscapeKeyDown={handleInteractOutside}
         >
           <ColorPickerPopover
             colors={colors}
@@ -109,6 +118,7 @@ export function useTextColor(editor: Editor | null, props: { disabled?: boolean;
             onSelect={handleSelect}
             onRemove={handleRemove}
             showColorPicker={colorPickerEnabled}
+            onColorInputChange={handleColorInputChange}
           />
         </Popover.Content>
       </Popover.Root>

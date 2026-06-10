@@ -1,7 +1,6 @@
 import { Box, Button, Divider, Flex, Tooltip, Typography } from '@strapi/design-system';
 import { useIntl } from 'react-intl';
 import { ThemeColorEntry } from '../../../shared/types';
-import { useEffect, useState } from 'react';
 import { useTheme } from 'styled-components';
 
 interface ColorPickerPopoverProps {
@@ -10,6 +9,7 @@ interface ColorPickerPopoverProps {
   onSelect: (color: string) => void;
   onRemove: () => void;
   showColorPicker?: boolean;
+  onColorInputChange?: (color: string) => void;
 }
 
 export function ColorPickerPopover({
@@ -18,24 +18,15 @@ export function ColorPickerPopover({
   onSelect,
   onRemove,
   showColorPicker = false,
+  onColorInputChange,
 }: ColorPickerPopoverProps) {
   const { formatMessage } = useIntl();
   const theme = useTheme();
-
-  const [pendingColor, setPendingColor] = useState<string>(activeColor ?? '#000000');
-  const [isDirty, setIsDirty] = useState(false);
-
-  useEffect(() => {
-    setPendingColor(activeColor ?? '#000000');
-    setIsDirty(false);
-  }, [activeColor]);
 
   const customLabel = formatMessage({
     id: 'tiptap-editor.color.custom',
     defaultMessage: 'Custom color',
   });
-
-  const hasPendingChange = isDirty && pendingColor !== activeColor;
 
   return (
     <Box padding={3} style={{ width: 280 }}>
@@ -90,10 +81,14 @@ export function ColorPickerPopover({
 
       {showColorPicker && (
         <>
-          <Divider />
+          <Box paddingTop={3} paddingBottom={3}>
+            <Divider />
+          </Box>
+          
           <Typography variant="sigma" textColor="neutral600">
             {customLabel}
           </Typography>
+
           <Box paddingTop={2}>
             <Flex gap={2} alignItems="center">
               <Tooltip description={customLabel}>
@@ -110,12 +105,9 @@ export function ColorPickerPopover({
                 >
                   <input
                     type="color"
-                    value={pendingColor}
+                    value={activeColor ?? '#000000'}
                     aria-label={customLabel}
-                    onChange={(e) => {
-                      setPendingColor(e.target.value);
-                      setIsDirty(true);
-                    }}
+                    onChange={(e) => (onColorInputChange ?? onSelect)(e.target.value)}
                     style={{
                       position: 'absolute',
                       inset: 0,
@@ -143,28 +135,17 @@ export function ColorPickerPopover({
                     style={{
                       width: 16,
                       height: 16,
-                      backgroundColor: pendingColor,
+                      backgroundColor: activeColor ?? '#000000',
                       border: `1px solid ${theme.colors.neutral200}`,
                       borderRadius: 3,
                       flexShrink: 0,
                     }}
                   />
                   <Typography variant="pi" style={{ fontFamily: 'monospace' }}>
-                    {pendingColor.toUpperCase()}
+                    {(activeColor ?? '#000000').toUpperCase()}
                   </Typography>
                 </Flex>
               </Box>
-              <Button
-                variant="secondary"
-                size="S"
-                onClick={() => onSelect(pendingColor)}
-                disabled={!hasPendingChange}
-              >
-                {formatMessage({
-                  id: 'tiptap-editor.color.apply',
-                  defaultMessage: 'Apply',
-                })}
-              </Button>
             </Flex>
           </Box>
         </>
