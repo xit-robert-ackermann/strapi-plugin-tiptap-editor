@@ -9,6 +9,7 @@ interface ColorPickerPopoverProps {
   activeColor: string | undefined;
   onSelect: (color: string) => void;
   onRemove: () => void;
+  showColorPicker?: boolean;
 }
 
 export function ColorPickerPopover({
@@ -16,6 +17,7 @@ export function ColorPickerPopover({
   activeColor,
   onSelect,
   onRemove,
+  showColorPicker = false,
 }: ColorPickerPopoverProps) {
   const { formatMessage } = useIntl();
   const theme = useTheme();
@@ -37,13 +39,7 @@ export function ColorPickerPopover({
 
   return (
     <Box padding={3} style={{ width: 280 }}>
-      <Button
-        variant="tertiary"
-        size="S"
-        onClick={onRemove}
-        disabled={!activeColor}
-        fullWidth
-      >
+      <Button variant="tertiary" size="S" onClick={onRemove} disabled={!activeColor} fullWidth>
         {formatMessage({
           id: 'tiptap-editor.color.remove',
           defaultMessage: 'Remove color',
@@ -92,84 +88,87 @@ export function ColorPickerPopover({
         </div>
       </Box>
 
-      <Box paddingTop={3} paddingBottom={3}>
-        <Divider />
-      </Box>
-
-      <Typography variant="sigma" textColor="neutral600">
-        {customLabel}
-      </Typography>
-      <Box paddingTop={2}>
-        <Flex gap={2} alignItems="center">
-          <Tooltip description={customLabel}>
-            <div
-              style={{
-                position: 'relative',
-                width: 28,
-                height: 28,
-                borderRadius: 4,
-                cursor: 'pointer',
-                background:
-                  'conic-gradient(red, yellow, lime, aqua, blue, magenta, red)',
-                flexShrink: 0,
-              }}
-            >
-              <input
-                type="color"
-                value={pendingColor}
-                aria-label={customLabel}
-                onChange={(e) => { setPendingColor(e.target.value); setIsDirty(true); }}
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  opacity: 0,
-                  width: '100%',
-                  height: '100%',
-                  cursor: 'pointer',
-                  padding: 0,
-                  border: 'none',
-                }}
-              />
-            </div>
-          </Tooltip>
-          <Box
-            background="neutral100"
-            paddingLeft={2}
-            paddingRight={2}
-            paddingTop={1}
-            paddingBottom={1}
-            hasRadius
-            style={{ flexGrow: 1 }}
-          >
+      {showColorPicker && (
+        <>
+          <Divider />
+          <Typography variant="sigma" textColor="neutral600">
+            {customLabel}
+          </Typography>
+          <Box paddingTop={2}>
             <Flex gap={2} alignItems="center">
-              <div
-                style={{
-                  width: 16,
-                  height: 16,
-                  backgroundColor: pendingColor,
-                  border: `1px solid ${theme.colors.neutral200}`,
-                  borderRadius: 3,
-                  flexShrink: 0,
-                }}
-              />
-              <Typography variant="pi" style={{ fontFamily: 'monospace' }}>
-                {pendingColor.toUpperCase()}
-              </Typography>
+              <Tooltip description={customLabel}>
+                <div
+                  style={{
+                    position: 'relative',
+                    width: 28,
+                    height: 28,
+                    borderRadius: 4,
+                    cursor: 'pointer',
+                    background: 'conic-gradient(red, yellow, lime, aqua, blue, magenta, red)',
+                    flexShrink: 0,
+                  }}
+                >
+                  <input
+                    type="color"
+                    value={pendingColor}
+                    aria-label={customLabel}
+                    onChange={(e) => {
+                      setPendingColor(e.target.value);
+                      setIsDirty(true);
+                    }}
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      opacity: 0,
+                      width: '100%',
+                      height: '100%',
+                      cursor: 'pointer',
+                      padding: 0,
+                      border: 'none',
+                    }}
+                  />
+                </div>
+              </Tooltip>
+              <Box
+                background="neutral100"
+                paddingLeft={2}
+                paddingRight={2}
+                paddingTop={1}
+                paddingBottom={1}
+                hasRadius
+                style={{ flexGrow: 1 }}
+              >
+                <Flex gap={2} alignItems="center">
+                  <div
+                    style={{
+                      width: 16,
+                      height: 16,
+                      backgroundColor: pendingColor,
+                      border: `1px solid ${theme.colors.neutral200}`,
+                      borderRadius: 3,
+                      flexShrink: 0,
+                    }}
+                  />
+                  <Typography variant="pi" style={{ fontFamily: 'monospace' }}>
+                    {pendingColor.toUpperCase()}
+                  </Typography>
+                </Flex>
+              </Box>
+              <Button
+                variant="secondary"
+                size="S"
+                onClick={() => onSelect(pendingColor)}
+                disabled={!hasPendingChange}
+              >
+                {formatMessage({
+                  id: 'tiptap-editor.color.apply',
+                  defaultMessage: 'Apply',
+                })}
+              </Button>
             </Flex>
           </Box>
-          <Button
-            variant="secondary"
-            size="S"
-            onClick={() => onSelect(pendingColor)}
-            disabled={!hasPendingChange}
-          >
-            {formatMessage({
-              id: 'tiptap-editor.color.apply',
-              defaultMessage: 'Apply',
-            })}
-          </Button>
-        </Flex>
-      </Box>
+        </>
+      )}
     </Box>
   );
 }

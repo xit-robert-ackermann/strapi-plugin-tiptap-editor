@@ -66,8 +66,8 @@ export interface TiptapPresetConfig {
   textAlign?: boolean | TextAlignConfig;
   superscript?: boolean | Record<string, unknown>;
   subscript?: boolean | Record<string, unknown>;
-  textColor?: boolean;
-  highlightColor?: boolean;
+  textColor?: boolean | Record<string, unknown>;
+  highlightColor?: boolean | Record<string, unknown>;
   mediaLibrary?: boolean | Record<string, unknown>;
 }
 

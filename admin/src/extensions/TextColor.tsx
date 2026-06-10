@@ -21,7 +21,7 @@ function TextColorIcon({ underColor }: { underColor: string }) {
 
 // ─── Hook ─────────────────────────────────────────────────────────────────────
 
-export function useTextColor(editor: Editor | null, props: { disabled?: boolean } = {}) {
+export function useTextColor(editor: Editor | null, props: { disabled?: boolean; colorPicker?: boolean } = {}) {
   const themeConfig = useThemeConfig();
   const colors = themeConfig?.colors ?? [];
 
@@ -104,6 +104,7 @@ export function useTextColor(editor: Editor | null, props: { disabled?: boolean 
             activeColor={activeColor}
             onSelect={handleSelect}
             onRemove={handleRemove}
+            showColorPicker={props.colorPicker}
           />
         </Popover.Content>
       </Popover.Root>
