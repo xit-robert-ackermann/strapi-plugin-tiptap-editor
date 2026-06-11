@@ -86,8 +86,11 @@ export function useTextColor(editor: Editor | null, props: { disabled?: boolean;
   };
 
   const handleOpenChange = (open: boolean) => {
-    if (open) openPicker();
-    else handleInteractOutside();
+    if (open) {
+      openPicker();
+    } else {
+      handleInteractOutside();
+    }
   };
 
   const activeColor = editorState?.activeColor;

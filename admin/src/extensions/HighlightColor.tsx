@@ -41,7 +41,7 @@ export function useHighlightColor(editor: Editor | null, props: { disabled?: boo
   });
 
   const selectionRef = useRef<{ from: number; to: number } | null>(null);
-  const colorDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const choseColorDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [showPicker, setShowPicker] = useState(false);
 
   const openPicker = () => {
@@ -68,8 +68,8 @@ export function useHighlightColor(editor: Editor | null, props: { disabled?: boo
   // doesn't trigger a focusOutside event that closes the popover.
   const handleColorInputChange = (color: string) => {
     if (!editor) return;
-    if (colorDebounceRef.current) clearTimeout(colorDebounceRef.current);
-    colorDebounceRef.current = setTimeout(() => {
+    if (choseColorDebounceRef.current) clearTimeout(choseColorDebounceRef.current);
+    choseColorDebounceRef.current = setTimeout(() => {
       editor.chain().setTextSelection(selectionRef.current ?? editor.state.selection).setHighlight({ color }).run();
     }, 80);
   };
@@ -87,8 +87,11 @@ export function useHighlightColor(editor: Editor | null, props: { disabled?: boo
   };
 
   const handleOpenChange = (open: boolean) => {
-    if (open) openPicker();
-    else handleInteractOutside();
+    if (open) {
+      openPicker();
+    } else {
+      handleInteractOutside();
+    }
   };
 
   const activeColor = editorState?.activeColor;
