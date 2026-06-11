@@ -101,7 +101,7 @@ export function useTextColor(editor: Editor | null, props: { disabled?: boolean;
       <Popover.Root open={showPicker} onOpenChange={handleOpenChange}>
         <Popover.Anchor>
           <ToolbarButton
-            onClick={() => setShowPicker((v) => !v)}
+            onClick={() => (showPicker ? handleInteractOutside() : openPicker())}
             icon={<TextColorIcon underColor={underColor} />}
             active={showPicker}
             disabled={props.disabled || !editor}
