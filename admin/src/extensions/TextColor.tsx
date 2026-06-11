@@ -5,7 +5,7 @@ import { Popover } from '@strapi/design-system';
 import { ToolbarButton } from '../components/ToolbarButton';
 import { ColorPickerPopover } from '../components/ColorPickerPopover';
 import { useThemeConfig } from '../hooks/useThemeConfig';
-import { TiptapPresetConfig, getFeatureOptions, isFeatureEnabled } from '../../../shared/types';
+import { TiptapPresetConfig, getFeatureOptions } from '../../../shared/types';
 
 // ─── Icon ─────────────────────────────────────────────────────────────────────
 
@@ -23,9 +23,7 @@ function TextColorIcon({ underColor }: { underColor: string }) {
 // ─── Hook ─────────────────────────────────────────────────────────────────────
 
 export function useTextColor(editor: Editor | null, props: { disabled?: boolean; config?: TiptapPresetConfig['textColor'] } = {}) {
-  const colorPickerEnabled = isFeatureEnabled(
-    getFeatureOptions(props.config, {})?.colorPicker as TiptapPresetConfig[keyof TiptapPresetConfig]
-  );
+  const colorPickerEnabled = getFeatureOptions(props.config, {})?.colorPicker === true;
   const themeConfig = useThemeConfig();
   const colors = themeConfig?.colors ?? [];
 
