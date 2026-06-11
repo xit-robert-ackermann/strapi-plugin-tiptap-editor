@@ -51,7 +51,7 @@ export function ColorPickerPopover({
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(8, 24px)',
+            gridTemplateColumns: 'repeat(11, 24px)',
             gap: 6,
           }}
         >
