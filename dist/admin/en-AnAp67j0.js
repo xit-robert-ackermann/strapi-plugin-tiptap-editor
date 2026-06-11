@@ -56,7 +56,6 @@ const en = {
   "tiptap-editor.table.insert": "Insert",
   "tiptap-editor.color.remove": "Remove color",
   "tiptap-editor.color.theme": "Theme colors",
-  "tiptap-editor.color.custom": "Custom color",
-  "tiptap-editor.color.apply": "Apply"
+  "tiptap-editor.color.custom": "Custom color"
 };
 exports.default = en;

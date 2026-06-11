@@ -9,7 +9,7 @@ import ReactDOM, { flushSync } from "react-dom";
 import styled, { useTheme } from "styled-components";
 import { useField, useFetchClient } from "@strapi/strapi/admin";
 import { Quotes, Code as Code$1, NumberList, BulletList as BulletList$1, StrikeThrough, Underline as Underline$1, Italic as Italic$1, Bold as Bold$1, Link as Link$1, Cross, Trash, Image as Image$1, GridNine } from "@strapi/icons";
-import { g as getMediaLibraryComponent, a as getThemeCache } from "./index-DqG7VgJZ.mjs";
+import { g as getMediaLibraryComponent, a as getThemeCache } from "./index-BNssmSvv.mjs";
 var shim = { exports: {} };
 var useSyncExternalStoreShim_production = {};
 /**
@@ -21670,36 +21670,21 @@ function ColorPickerPopover({
   colors,
   activeColor,
   onSelect,
-  onRemove
+  onRemove,
+  showColorPicker = false,
+  onColorInputChange
 }) {
   const { formatMessage } = useIntl();
   const theme = useTheme();
-  const [pendingColor, setPendingColor] = useState(activeColor ?? "#000000");
-  const [isDirty, setIsDirty] = useState(false);
-  useEffect(() => {
-    setPendingColor(activeColor ?? "#000000");
-    setIsDirty(false);
-  }, [activeColor]);
   const customLabel = formatMessage({
     id: "tiptap-editor.color.custom",
     defaultMessage: "Custom color"
   });
-  const hasPendingChange = isDirty && pendingColor !== activeColor;
-  return /* @__PURE__ */ jsxs(Box, { padding: 3, style: { width: 280 }, children: [
-    /* @__PURE__ */ jsx(
-      Button,
-      {
-        variant: "tertiary",
-        size: "S",
-        onClick: onRemove,
-        disabled: !activeColor,
-        fullWidth: true,
-        children: formatMessage({
-          id: "tiptap-editor.color.remove",
-          defaultMessage: "Remove color"
-        })
-      }
-    ),
+  return /* @__PURE__ */ jsxs(Box, { padding: 3, style: { width: 280, maxHeight: 400, overflowY: "auto" }, children: [
+    /* @__PURE__ */ jsx(Button, { variant: "tertiary", size: "S", onClick: onRemove, disabled: !activeColor, fullWidth: true, children: formatMessage({
+      id: "tiptap-editor.color.remove",
+      defaultMessage: "Remove color"
+    }) }),
     /* @__PURE__ */ jsx(Box, { paddingTop: 3, paddingBottom: 3, children: /* @__PURE__ */ jsx(Divider, {}) }),
     /* @__PURE__ */ jsx(Typography, { variant: "sigma", textColor: "neutral600", children: formatMessage({
       id: "tiptap-editor.color.theme",
@@ -21710,7 +21695,7 @@ function ColorPickerPopover({
       {
         style: {
           display: "grid",
-          gridTemplateColumns: "repeat(8, 24px)",
+          gridTemplateColumns: "repeat(11, 24px)",
           gap: 6
         },
         children: colors.map((entry) => /* @__PURE__ */ jsx(Tooltip, { description: entry.label, children: /* @__PURE__ */ jsx(
@@ -21733,87 +21718,73 @@ function ColorPickerPopover({
         ) }, entry.color))
       }
     ) }),
-    /* @__PURE__ */ jsx(Box, { paddingTop: 3, paddingBottom: 3, children: /* @__PURE__ */ jsx(Divider, {}) }),
-    /* @__PURE__ */ jsx(Typography, { variant: "sigma", textColor: "neutral600", children: customLabel }),
-    /* @__PURE__ */ jsx(Box, { paddingTop: 2, children: /* @__PURE__ */ jsxs(Flex, { gap: 2, alignItems: "center", children: [
-      /* @__PURE__ */ jsx(Tooltip, { description: customLabel, children: /* @__PURE__ */ jsx(
-        "div",
-        {
-          style: {
-            position: "relative",
-            width: 28,
-            height: 28,
-            borderRadius: 4,
-            cursor: "pointer",
-            background: "conic-gradient(red, yellow, lime, aqua, blue, magenta, red)",
-            flexShrink: 0
-          },
-          children: /* @__PURE__ */ jsx(
-            "input",
-            {
-              type: "color",
-              value: pendingColor,
-              "aria-label": customLabel,
-              onChange: (e) => {
-                setPendingColor(e.target.value);
-                setIsDirty(true);
-              },
-              style: {
-                position: "absolute",
-                inset: 0,
-                opacity: 0,
-                width: "100%",
-                height: "100%",
-                cursor: "pointer",
-                padding: 0,
-                border: "none"
-              }
-            }
-          )
-        }
-      ) }),
-      /* @__PURE__ */ jsx(
-        Box,
-        {
-          background: "neutral100",
-          paddingLeft: 2,
-          paddingRight: 2,
-          paddingTop: 1,
-          paddingBottom: 1,
-          hasRadius: true,
-          style: { flexGrow: 1 },
-          children: /* @__PURE__ */ jsxs(Flex, { gap: 2, alignItems: "center", children: [
-            /* @__PURE__ */ jsx(
-              "div",
+    showColorPicker && /* @__PURE__ */ jsxs(Fragment$1, { children: [
+      /* @__PURE__ */ jsx(Box, { paddingTop: 3, paddingBottom: 3, children: /* @__PURE__ */ jsx(Divider, {}) }),
+      /* @__PURE__ */ jsx(Typography, { variant: "sigma", textColor: "neutral600", children: customLabel }),
+      /* @__PURE__ */ jsx(Box, { paddingTop: 2, children: /* @__PURE__ */ jsxs(Flex, { gap: 2, alignItems: "center", children: [
+        /* @__PURE__ */ jsx(Tooltip, { description: customLabel, children: /* @__PURE__ */ jsx(
+          "div",
+          {
+            style: {
+              position: "relative",
+              width: 28,
+              height: 28,
+              borderRadius: 4,
+              cursor: "pointer",
+              background: "conic-gradient(red, yellow, lime, aqua, blue, magenta, red)",
+              flexShrink: 0
+            },
+            children: /* @__PURE__ */ jsx(
+              "input",
               {
+                type: "color",
+                value: activeColor ?? "#000000",
+                "aria-label": customLabel,
+                onChange: (e) => onColorInputChange(e.target.value),
                 style: {
-                  width: 16,
-                  height: 16,
-                  backgroundColor: pendingColor,
-                  border: `1px solid ${theme.colors.neutral200}`,
-                  borderRadius: 3,
-                  flexShrink: 0
+                  position: "absolute",
+                  inset: 0,
+                  opacity: 0,
+                  width: "100%",
+                  height: "100%",
+                  cursor: "pointer",
+                  padding: 0,
+                  border: "none"
                 }
               }
-            ),
-            /* @__PURE__ */ jsx(Typography, { variant: "pi", style: { fontFamily: "monospace" }, children: pendingColor.toUpperCase() })
-          ] })
-        }
-      ),
-      /* @__PURE__ */ jsx(
-        Button,
-        {
-          variant: "secondary",
-          size: "S",
-          onClick: () => onSelect(pendingColor),
-          disabled: !hasPendingChange,
-          children: formatMessage({
-            id: "tiptap-editor.color.apply",
-            defaultMessage: "Apply"
-          })
-        }
-      )
-    ] }) })
+            )
+          }
+        ) }),
+        /* @__PURE__ */ jsx(
+          Box,
+          {
+            background: "neutral100",
+            paddingLeft: 2,
+            paddingRight: 2,
+            paddingTop: 1,
+            paddingBottom: 1,
+            hasRadius: true,
+            style: { flexGrow: 1 },
+            children: /* @__PURE__ */ jsxs(Flex, { gap: 2, alignItems: "center", children: [
+              /* @__PURE__ */ jsx(
+                "div",
+                {
+                  style: {
+                    width: 16,
+                    height: 16,
+                    backgroundColor: activeColor ?? "#000000",
+                    border: `1px solid ${theme.colors.neutral200}`,
+                    borderRadius: 3,
+                    flexShrink: 0
+                  }
+                }
+              ),
+              /* @__PURE__ */ jsx(Typography, { variant: "pi", style: { fontFamily: "monospace" }, children: (activeColor ?? "#000000").toUpperCase() })
+            ] })
+          }
+        )
+      ] }) })
+    ] })
   ] });
 }
 function useThemeConfig() {
@@ -21826,6 +21797,7 @@ function TextColorIcon({ underColor }) {
   ] });
 }
 function useTextColor(editor, props = {}) {
+  const colorPickerEnabled = isFeatureEnabled(getFeatureOptions(props.config, {})?.colorPicker);
   const themeConfig = useThemeConfig();
   const colors = themeConfig?.colors ?? [];
   const editorState = useEditorState({
@@ -21838,6 +21810,7 @@ function useTextColor(editor, props = {}) {
     }
   });
   const selectionRef = useRef(null);
+  const choseColorDebounceRef = useRef(null);
   const [showPicker, setShowPicker] = useState(false);
   const openPicker = () => {
     if (!editor) return;
@@ -21855,6 +21828,13 @@ function useTextColor(editor, props = {}) {
     restoreSelection();
     editor.chain().focus().setColor(color).run();
     setShowPicker(false);
+  };
+  const handleColorInputChange = (color) => {
+    if (!editor) return;
+    if (choseColorDebounceRef.current) clearTimeout(choseColorDebounceRef.current);
+    choseColorDebounceRef.current = setTimeout(() => {
+      editor.chain().setTextSelection(selectionRef.current ?? editor.state.selection).setColor(color).run();
+    }, 80);
   };
   const handleRemove = () => {
     if (!editor) return;
@@ -21880,7 +21860,7 @@ function useTextColor(editor, props = {}) {
       /* @__PURE__ */ jsx(Popover.Anchor, { children: /* @__PURE__ */ jsx(
         ToolbarButton,
         {
-          onClick: () => setShowPicker((v) => !v),
+          onClick: () => showPicker ? handleInteractOutside() : openPicker(),
           icon: /* @__PURE__ */ jsx(TextColorIcon, { underColor }),
           active: showPicker,
           disabled: props.disabled || !editor,
@@ -21894,13 +21874,16 @@ function useTextColor(editor, props = {}) {
           align: "start",
           sideOffset: 4,
           onInteractOutside: handleInteractOutside,
+          onEscapeKeyDown: handleInteractOutside,
           children: /* @__PURE__ */ jsx(
             ColorPickerPopover,
             {
               colors,
               activeColor,
               onSelect: handleSelect,
-              onRemove: handleRemove
+              onRemove: handleRemove,
+              showColorPicker: colorPickerEnabled,
+              onColorInputChange: handleColorInputChange
             }
           )
         }
@@ -21916,6 +21899,7 @@ function HighlightColorIcon({ underColor }) {
   ] });
 }
 function useHighlightColor(editor, props = {}) {
+  const colorPickerEnabled = isFeatureEnabled(getFeatureOptions(props.config, {})?.colorPicker);
   const themeConfig = useThemeConfig();
   const colors = themeConfig?.colors ?? [];
   const editorState = useEditorState({
@@ -21928,6 +21912,7 @@ function useHighlightColor(editor, props = {}) {
     }
   });
   const selectionRef = useRef(null);
+  const choseColorDebounceRef = useRef(null);
   const [showPicker, setShowPicker] = useState(false);
   const openPicker = () => {
     if (!editor) return;
@@ -21945,6 +21930,13 @@ function useHighlightColor(editor, props = {}) {
     restoreSelection();
     editor.chain().focus().setHighlight({ color }).run();
     setShowPicker(false);
+  };
+  const handleColorInputChange = (color) => {
+    if (!editor) return;
+    if (choseColorDebounceRef.current) clearTimeout(choseColorDebounceRef.current);
+    choseColorDebounceRef.current = setTimeout(() => {
+      editor.chain().setTextSelection(selectionRef.current ?? editor.state.selection).setHighlight({ color }).run();
+    }, 80);
   };
   const handleRemove = () => {
     if (!editor) return;
@@ -21984,13 +21976,16 @@ function useHighlightColor(editor, props = {}) {
           align: "start",
           sideOffset: 4,
           onInteractOutside: handleInteractOutside,
+          onEscapeKeyDown: handleInteractOutside,
           children: /* @__PURE__ */ jsx(
             ColorPickerPopover,
             {
               colors,
               activeColor,
               onSelect: handleSelect,
-              onRemove: handleRemove
+              onRemove: handleRemove,
+              showColorPicker: colorPickerEnabled,
+              onColorInputChange: handleColorInputChange
             }
           )
         }
@@ -29853,8 +29848,8 @@ const InnerEditor = forwardRef(
     const script = useScript(editor, { disabled: props.disabled });
     const table = useTable(editor, { disabled: props.disabled });
     const textAlign = useTextAlign(editor, { disabled: props.disabled });
-    const textColor = useTextColor(editor, { disabled: props.disabled });
-    const highlightColor = useHighlightColor(editor, { disabled: props.disabled });
+    const textColor = useTextColor(editor, { disabled: props.disabled, config: config.textColor });
+    const highlightColor = useHighlightColor(editor, { disabled: props.disabled, config: config.highlightColor });
     if (!editor) return null;
     return /* @__PURE__ */ jsx(EditorErrorBoundary, { children: /* @__PURE__ */ jsxs(
       BaseTiptapInput,
