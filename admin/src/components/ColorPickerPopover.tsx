@@ -9,7 +9,7 @@ interface ColorPickerPopoverProps {
   onSelect: (color: string) => void;
   onRemove: () => void;
   showColorPicker?: boolean;
-  onColorInputChange?: (color: string) => void;
+  onColorInputChange: (color: string) => void;
 }
 
 export function ColorPickerPopover({
@@ -107,7 +107,7 @@ export function ColorPickerPopover({
                     type="color"
                     value={activeColor ?? '#000000'}
                     aria-label={customLabel}
-                    onChange={(e) => (onColorInputChange ?? onSelect)(e.target.value)}
+                    onChange={(e) => onColorInputChange(e.target.value)}
                     style={{
                       position: 'absolute',
                       inset: 0,
