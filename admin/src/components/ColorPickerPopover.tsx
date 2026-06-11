@@ -29,7 +29,7 @@ export function ColorPickerPopover({
   });
 
   return (
-    <Box padding={3} style={{ width: 280 }}>
+    <Box padding={3} style={{ width: 280, maxHeight: 400, overflowY: 'auto' }}>
       <Button variant="tertiary" size="S" onClick={onRemove} disabled={!activeColor} fullWidth>
         {formatMessage({
           id: 'tiptap-editor.color.remove',
