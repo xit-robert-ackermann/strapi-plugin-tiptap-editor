@@ -4,8 +4,8 @@ interface ColorPickerPopoverProps {
     activeColor: string | undefined;
     onSelect: (color: string) => void;
     onRemove: () => void;
-    showColorPicker?: boolean;
+    showCustomColorPicker?: boolean;
     onColorInputChange: (color: string) => void;
 }
-export declare function ColorPickerPopover({ colors, activeColor, onSelect, onRemove, showColorPicker, onColorInputChange, }: ColorPickerPopoverProps): import("react/jsx-runtime").JSX.Element;
+export declare function ColorPickerPopover({ colors, activeColor, onSelect, onRemove, showCustomColorPicker, onColorInputChange, }: ColorPickerPopoverProps): import("react/jsx-runtime").JSX.Element;
 export {};

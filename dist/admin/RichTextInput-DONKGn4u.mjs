@@ -9,7 +9,7 @@ import ReactDOM, { flushSync } from "react-dom";
 import styled, { useTheme } from "styled-components";
 import { useField, useFetchClient } from "@strapi/strapi/admin";
 import { Quotes, Code as Code$1, NumberList, BulletList as BulletList$1, StrikeThrough, Underline as Underline$1, Italic as Italic$1, Bold as Bold$1, Link as Link$1, Cross, Trash, Image as Image$1, GridNine } from "@strapi/icons";
-import { g as getMediaLibraryComponent, a as getThemeCache } from "./index-BNssmSvv.mjs";
+import { g as getMediaLibraryComponent, a as getThemeCache } from "./index-BvZX4TAf.mjs";
 var shim = { exports: {} };
 var useSyncExternalStoreShim_production = {};
 /**
@@ -21671,7 +21671,7 @@ function ColorPickerPopover({
   activeColor,
   onSelect,
   onRemove,
-  showColorPicker = false,
+  showCustomColorPicker = false,
   onColorInputChange
 }) {
   const { formatMessage } = useIntl();
@@ -21718,7 +21718,7 @@ function ColorPickerPopover({
         ) }, entry.color))
       }
     ) }),
-    showColorPicker && /* @__PURE__ */ jsxs(Fragment$1, { children: [
+    showCustomColorPicker && /* @__PURE__ */ jsxs(Fragment$1, { children: [
       /* @__PURE__ */ jsx(Box, { paddingTop: 3, paddingBottom: 3, children: /* @__PURE__ */ jsx(Divider, {}) }),
       /* @__PURE__ */ jsx(Typography, { variant: "sigma", textColor: "neutral600", children: customLabel }),
       /* @__PURE__ */ jsx(Box, { paddingTop: 2, children: /* @__PURE__ */ jsxs(Flex, { gap: 2, alignItems: "center", children: [
@@ -21797,7 +21797,7 @@ function TextColorIcon({ underColor }) {
   ] });
 }
 function useTextColor(editor, props = {}) {
-  const colorPickerEnabled = isFeatureEnabled(getFeatureOptions(props.config, {})?.colorPicker);
+  const customColorPickerEnabled = isFeatureEnabled(getFeatureOptions(props.config, {})?.customColorPicker);
   const themeConfig = useThemeConfig();
   const colors = themeConfig?.colors ?? [];
   const editorState = useEditorState({
@@ -21874,7 +21874,6 @@ function useTextColor(editor, props = {}) {
           align: "start",
           sideOffset: 4,
           onInteractOutside: handleInteractOutside,
-          onEscapeKeyDown: handleInteractOutside,
           children: /* @__PURE__ */ jsx(
             ColorPickerPopover,
             {
@@ -21882,7 +21881,7 @@ function useTextColor(editor, props = {}) {
               activeColor,
               onSelect: handleSelect,
               onRemove: handleRemove,
-              showColorPicker: colorPickerEnabled,
+              showCustomColorPicker: customColorPickerEnabled,
               onColorInputChange: handleColorInputChange
             }
           )
@@ -21899,7 +21898,7 @@ function HighlightColorIcon({ underColor }) {
   ] });
 }
 function useHighlightColor(editor, props = {}) {
-  const colorPickerEnabled = isFeatureEnabled(getFeatureOptions(props.config, {})?.colorPicker);
+  const customColorPickerEnabled = isFeatureEnabled(getFeatureOptions(props.config, {})?.customColorPicker);
   const themeConfig = useThemeConfig();
   const colors = themeConfig?.colors ?? [];
   const editorState = useEditorState({
@@ -21976,7 +21975,6 @@ function useHighlightColor(editor, props = {}) {
           align: "start",
           sideOffset: 4,
           onInteractOutside: handleInteractOutside,
-          onEscapeKeyDown: handleInteractOutside,
           children: /* @__PURE__ */ jsx(
             ColorPickerPopover,
             {
@@ -21984,7 +21982,7 @@ function useHighlightColor(editor, props = {}) {
               activeColor,
               onSelect: handleSelect,
               onRemove: handleRemove,
-              showColorPicker: colorPickerEnabled,
+              showCustomColorPicker: customColorPickerEnabled,
               onColorInputChange: handleColorInputChange
             }
           )

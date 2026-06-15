@@ -11,7 +11,7 @@ const ReactDOM = require("react-dom");
 const styled = require("styled-components");
 const admin = require("@strapi/strapi/admin");
 const icons = require("@strapi/icons");
-const index = require("./index-nMnDRHDF.js");
+const index = require("./index-BWZnslC6.js");
 const _interopDefault = (e) => e && e.__esModule ? e : { default: e };
 const React__default = /* @__PURE__ */ _interopDefault(React);
 const ReactDOM__default = /* @__PURE__ */ _interopDefault(ReactDOM);
@@ -21677,7 +21677,7 @@ function ColorPickerPopover({
   activeColor,
   onSelect,
   onRemove,
-  showColorPicker = false,
+  showCustomColorPicker = false,
   onColorInputChange
 }) {
   const { formatMessage } = reactIntl.useIntl();
@@ -21724,7 +21724,7 @@ function ColorPickerPopover({
         ) }, entry.color))
       }
     ) }),
-    showColorPicker && /* @__PURE__ */ jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [
+    showCustomColorPicker && /* @__PURE__ */ jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [
       /* @__PURE__ */ jsxRuntime.jsx(designSystem.Box, { paddingTop: 3, paddingBottom: 3, children: /* @__PURE__ */ jsxRuntime.jsx(designSystem.Divider, {}) }),
       /* @__PURE__ */ jsxRuntime.jsx(designSystem.Typography, { variant: "sigma", textColor: "neutral600", children: customLabel }),
       /* @__PURE__ */ jsxRuntime.jsx(designSystem.Box, { paddingTop: 2, children: /* @__PURE__ */ jsxRuntime.jsxs(designSystem.Flex, { gap: 2, alignItems: "center", children: [
@@ -21803,7 +21803,7 @@ function TextColorIcon({ underColor }) {
   ] });
 }
 function useTextColor(editor, props = {}) {
-  const colorPickerEnabled = isFeatureEnabled(getFeatureOptions(props.config, {})?.colorPicker);
+  const customColorPickerEnabled = isFeatureEnabled(getFeatureOptions(props.config, {})?.customColorPicker);
   const themeConfig = useThemeConfig();
   const colors = themeConfig?.colors ?? [];
   const editorState = useEditorState({
@@ -21880,7 +21880,6 @@ function useTextColor(editor, props = {}) {
           align: "start",
           sideOffset: 4,
           onInteractOutside: handleInteractOutside,
-          onEscapeKeyDown: handleInteractOutside,
           children: /* @__PURE__ */ jsxRuntime.jsx(
             ColorPickerPopover,
             {
@@ -21888,7 +21887,7 @@ function useTextColor(editor, props = {}) {
               activeColor,
               onSelect: handleSelect,
               onRemove: handleRemove,
-              showColorPicker: colorPickerEnabled,
+              showCustomColorPicker: customColorPickerEnabled,
               onColorInputChange: handleColorInputChange
             }
           )
@@ -21905,7 +21904,7 @@ function HighlightColorIcon({ underColor }) {
   ] });
 }
 function useHighlightColor(editor, props = {}) {
-  const colorPickerEnabled = isFeatureEnabled(getFeatureOptions(props.config, {})?.colorPicker);
+  const customColorPickerEnabled = isFeatureEnabled(getFeatureOptions(props.config, {})?.customColorPicker);
   const themeConfig = useThemeConfig();
   const colors = themeConfig?.colors ?? [];
   const editorState = useEditorState({
@@ -21982,7 +21981,6 @@ function useHighlightColor(editor, props = {}) {
           align: "start",
           sideOffset: 4,
           onInteractOutside: handleInteractOutside,
-          onEscapeKeyDown: handleInteractOutside,
           children: /* @__PURE__ */ jsxRuntime.jsx(
             ColorPickerPopover,
             {
@@ -21990,7 +21988,7 @@ function useHighlightColor(editor, props = {}) {
               activeColor,
               onSelect: handleSelect,
               onRemove: handleRemove,
-              showColorPicker: colorPickerEnabled,
+              showCustomColorPicker: customColorPickerEnabled,
               onColorInputChange: handleColorInputChange
             }
           )
