@@ -111,7 +111,6 @@ export function useTextColor(editor: Editor | null, props: { disabled?: boolean;
           align="start"
           sideOffset={4}
           onInteractOutside={handleInteractOutside}
-          onEscapeKeyDown={handleInteractOutside}
         >
           <ColorPickerPopover
             colors={colors}

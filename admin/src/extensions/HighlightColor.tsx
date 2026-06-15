@@ -112,7 +112,6 @@ export function useHighlightColor(editor: Editor | null, props: { disabled?: boo
           align="start"
           sideOffset={4}
           onInteractOutside={handleInteractOutside}
-          onEscapeKeyDown={handleInteractOutside}
         >
           <ColorPickerPopover
             colors={colors}
