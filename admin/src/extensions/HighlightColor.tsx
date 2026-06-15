@@ -24,7 +24,7 @@ function HighlightColorIcon({ underColor }: { underColor: string }) {
 // ─── Hook ─────────────────────────────────────────────────────────────────────
 
 export function useHighlightColor(editor: Editor | null, props: { disabled?: boolean; config?: TiptapPresetConfig['highlightColor'] } = {}) {
-  const colorPickerEnabled = isFeatureEnabled(getFeatureOptions(props.config, {})?.colorPicker);
+  const customColorPickerEnabled = isFeatureEnabled(getFeatureOptions(props.config, {})?.customColorPicker);
   const themeConfig = useThemeConfig();
   const colors = themeConfig?.colors ?? [];
 
@@ -112,14 +112,13 @@ export function useHighlightColor(editor: Editor | null, props: { disabled?: boo
           align="start"
           sideOffset={4}
           onInteractOutside={handleInteractOutside}
-          onEscapeKeyDown={handleInteractOutside}
         >
           <ColorPickerPopover
             colors={colors}
             activeColor={activeColor}
             onSelect={handleSelect}
             onRemove={handleRemove}
-            showColorPicker={colorPickerEnabled}
+            showCustomColorPicker={customColorPickerEnabled}
             onColorInputChange={handleColorInputChange}
           />
         </Popover.Content>

@@ -127,7 +127,7 @@ describe('ColorPickerPopover', () => {
     const swatchButtons = findAll(result, (el) => el.type === 'button');
     const activeButton = swatchButtons.find((b: any) => b.props['aria-label'] === 'Red');
     expect(activeButton).toBeDefined();
-    expect(activeButton.props.style.outline).toBe(`2px solid #4945ff`);
+    expect(activeButton.props.style.outline).toBe('2px solid #4945ff');
   });
 
   it('no swatch has outline style when activeColor is undefined', () => {

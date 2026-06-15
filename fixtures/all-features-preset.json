@@ -20,8 +20,8 @@
       },
       "superscript": true,
       "subscript": true,
-      "textColor": { "colorPicker": true },
-      "highlightColor": { "colorPicker": true },
+      "textColor": { "customColorPicker": true },
+      "highlightColor": { "customColorPicker": true },
       "mediaLibrary": true
     }
   }

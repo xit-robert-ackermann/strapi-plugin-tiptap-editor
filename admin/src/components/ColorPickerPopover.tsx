@@ -8,7 +8,7 @@ interface ColorPickerPopoverProps {
   activeColor: string | undefined;
   onSelect: (color: string) => void;
   onRemove: () => void;
-  showColorPicker?: boolean;
+  showCustomColorPicker?: boolean;
   onColorInputChange: (color: string) => void;
 }
 
@@ -17,7 +17,7 @@ export function ColorPickerPopover({
   activeColor,
   onSelect,
   onRemove,
-  showColorPicker = false,
+  showCustomColorPicker = false,
   onColorInputChange,
 }: ColorPickerPopoverProps) {
   const { formatMessage } = useIntl();
@@ -79,7 +79,7 @@ export function ColorPickerPopover({
         </div>
       </Box>
 
-      {showColorPicker && (
+      {showCustomColorPicker && (
         <>
           <Box paddingTop={3} paddingBottom={3}>
             <Divider />
