@@ -23,7 +23,7 @@ function TextColorIcon({ underColor }: { underColor: string }) {
 // ─── Hook ─────────────────────────────────────────────────────────────────────
 
 export function useTextColor(editor: Editor | null, props: { disabled?: boolean; config?: TiptapPresetConfig['textColor'] } = {}) {
-  const colorPickerEnabled = isFeatureEnabled(getFeatureOptions(props.config, {})?.colorPicker);
+  const customColorPickerEnabled = isFeatureEnabled(getFeatureOptions(props.config, {})?.customColorPicker);
   const themeConfig = useThemeConfig();
   const colors = themeConfig?.colors ?? [];
 
@@ -117,7 +117,7 @@ export function useTextColor(editor: Editor | null, props: { disabled?: boolean;
             activeColor={activeColor}
             onSelect={handleSelect}
             onRemove={handleRemove}
-            showColorPicker={colorPickerEnabled}
+            showCustomColorPicker={customColorPickerEnabled}
             onColorInputChange={handleColorInputChange}
           />
         </Popover.Content>

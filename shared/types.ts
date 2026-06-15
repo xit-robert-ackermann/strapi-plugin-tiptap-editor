@@ -23,11 +23,11 @@ export type HeadingConfig = {
 };
 
 export type TextColorConfig = {
-  colorPicker?: boolean | { enabled?: boolean };
+  customColorPicker?: boolean | { enabled?: boolean };
 };
 
 export type HighlightColorConfig = {
-  colorPicker?: boolean | { enabled?: boolean };
+  customColorPicker?: boolean | { enabled?: boolean };
 };
 
 // ─── Theme types ─────────────────────────────────────────────────────────────
